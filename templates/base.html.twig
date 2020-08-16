@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+        {% block stylesheets %}
+             {{ encore_entry_link_tags('app') }}
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+         <header>
+            {% include ("./layout/navbar.html.twig") %}
+         </header>
+         <main class="mt-5 pt-2" id="main">
+             {% block body %}{% endblock %}
+         </main>
+         <footer class="footer  py-3 mt-3 bg-light">
+             {% include ("./layout/footer.html.twig") %}
+         </footer>
+         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 </html>

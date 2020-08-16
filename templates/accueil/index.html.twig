@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+{% include ("./accueil/index/jumbotron.html.twig") %}
+{% include ("./accueil/index/search.html.twig") %}
+   
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_index') }}
+{% endblock %}

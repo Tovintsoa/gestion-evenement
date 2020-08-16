@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                {% include ("./accueil/resultatRecherche/search.html.twig") %}
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-6 col-sm-12 col-xs-12">
+                {% include ("./accueil/resultatRecherche/resultat.html.twig") %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_index') }}
+{% endblock %}

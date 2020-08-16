@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        {% if resultat_recherche is defined and resultat_recherche is not null and resultat_recherche is not empty%}
+            {% for result in resultat_recherche %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="card mt-4" style="">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Card image cap">
+                    <div class="card-body">
+                        {% if result.dateDebutEvenement|date('Y-m-d') is same as(result.dateFinEvenement|date('Y-m-d')) %}
+                            <p style="color:red">{{ result.dateDebutEvenement|date("d/m/Y") }}</p>
+                        {% else %}
+                            <p style="color:red">{{ result.dateDebutEvenement|date("d/m/Y") }} - {{ result.dateFinEvenement|date("d/m/Y") }}</p>
+                        {% endif %}
+                        <p class="card-text font-weight-bold">{{ result.nomEvenement }}</p>
+                        <p>
+                        {% for typeEvenementId in result.typeEvenement %}
+                             {{ render(controller(
+                            'App\\Controller\\AccueilController::afficherTypeEvenement',
+                            { 'id_type': typeEvenementId }
+                            )) }}
+                        {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+
+                        <button type="button" class="btn btn-primary  btn-sm"><i class="fas fa-star"></i> Interessé</button>
+                        <button type="button"  class="btn btn-secondary btn-sm ml-2"><i class="fas fa-share"></i></button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-12 text-center">
+                {{ knp_pagination_render(resultat_recherche) }}
+            </div>
+        {% else %}
+
+        {% endif %}
+    </div>
+</div>
+

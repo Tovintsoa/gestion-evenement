@@ -25,7 +25,7 @@ class TypeEvenement
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Evenement::class, mappedBy="typeEvenement")
+     * @ORM\ManyToMany(targetEntity=Evenement::class, mappedBy="type_evenement")
      */
     private $evenements;
 
@@ -78,4 +78,6 @@ class TypeEvenement
 
         return $this;
     }
+
+
 }

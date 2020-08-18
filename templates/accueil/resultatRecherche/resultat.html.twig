@@ -13,10 +13,12 @@
                         {% endif %}
                         <p class="card-text font-weight-bold">{{ result.nomEvenement }}</p>
                         <p>
+
                         {% for typeEvenementId in result.typeEvenement %}
+
                              {{ render(controller(
                             'App\\Controller\\AccueilController::afficherTypeEvenement',
-                            { 'id_type': typeEvenementId }
+                            { 'id_type': typeEvenementId.id }
                             )) }}
                         {% endfor %}
                         </p>

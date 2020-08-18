@@ -10,6 +10,7 @@ use App\Service\LieuEvenementService;
 use App\Service\TypeEvenementService;
 use Cassandra\Type;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -66,48 +67,84 @@ class EvenementRepository extends ServiceEntityRepository
     }
     */
     public function chercherEvenement(array $critere){
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-        $res = $qb->select('u')
-            ->from('App:Evenement','u')
-            ->where("1<2");
-        //dump($critere);
-        dump($critere);
-        //$query = "SELECT * FROM evenement e where 1<2";
+
+        $query = "SELECT e.*,te.type,le.`nom_lieu_evenement` FROM evenement	AS e LEFT JOIN
+evenement_type_evenement AS ete ON e.id = ete.evenement_id RIGHT JOIN type_evenement AS te ON ete.type_evenement_id = te.`id` 
+LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOIN lieu_evenement AS le ON ele.id_lieu_evenement_id = le.`id` where 1<2";
 
         if($critere['date_evenement_debut'] !== ''){
-            //$query .= " AND e.`date_debut_evenement` like '".$critere['date_evenement_debut']."'";
-            $res->andWhere('u.dateDebutEvenement >= ?1');
-            $res->setParameter(1,$critere['date_evenement_debut']);
+            $query .= " AND e.`date_debut_evenement` like '".$critere['date_evenement_debut']."'";
+           // $query .= " AND e.`date_debut_evenement` like (?)";
+
         }
         if($critere['date_evenement_fin'] !== ''){
-           // $query .= " AND e.`date_fin_evenement` like '".$critere['date_evenement_fin']."'" ;
-            $res->andWhere('u.dateFinEvenement >= ?2');
-            $res->setParameter(2,$critere['date_evenement_fin']);
+            $query .= " AND e.`date_fin_evenement` like '".$critere['date_evenement_fin']."'" ;
+            //$query .= " AND e.`date_fin_evenement` like (?)" ;
+
         }
         if($critere['budget_evenement_min'] !== ''){
-           // $query .= " AND e.`budget_evenement` >= ".$critere['budget_evenement_min'];
-            $res->andWhere('u.budgetEvenement >= ?3');
-            $res->setParameter(3,$critere['budget_evenement_min']);
-
+           $query .= " AND e.`budget_evenement` >= ? ";
         }
         if($critere['budget_evenement_max'] !== ''){
-            //$query .= " AND e.`budget_evenement` <= ".$critere['budget_evenement_max'];
-            $res->andWhere('u.budgetEvenement <= ?4');
-            $res->setParameter(4,$critere['budget_evenement_max']);
+            $query .= " AND e.`budget_evenement` <=  ? ";
+
         }
-        $resultat = $res->getQuery()->getResult();
+       // $resultat = $res->getQuery()->getResult();
 
          if(isset($critere['type_evenement']) &&  !empty($critere['type_evenement'])){
-            $resultat = $this->typeEvenementService->afficherParTypeEvenement($resultat,$critere['type_evenement']);
+             $query .= ' AND ete.type_evenement_id IN(';
+             $m = 0;
+             foreach($critere['type_evenement'] as $type){
+                 $m++;
+                $query .= $type;
+                if($m < sizeof($critere['type_evenement'])){
+                    $query .= ',';
+                }
+
+             }
+             $query .= ')';
+
          }
 
         if(isset($critere['lieu_evenement']) && !empty($critere['lieu_evenement'])){
-            $resultat = $this->lieuEvenementService->afficherParLieuEvenement($resultat,$critere['lieu_evenement']);
+            $query .= ' AND ele.id_lieu_evenement_id IN(';
+            $m = 0;
+            foreach($critere['lieu_evenement'] as $lieu){
+                $m++;
+                $query .= $lieu;
+                if($m < sizeof($critere['lieu_evenement'])){
+                    $query .= ',';
+                }
+            }
+            $query .= ')';
         }
-        return $resultat;
-        //echo($query); die;
-        
 
+        $query .= ' group by e.id';
+        //echo($query); die;
+
+        $rsm = new ResultSetMappingBuilder($this->getEntityManager());
+        $rsm->addEntityResult(Evenement::class, "e");
+     /*   $rsm->addEntityResult(EvenementLieuEvenement::class, "ele");
+        $rsm->addEntityResult(LieuEvenement::class,"le");
+        $rsm->addEntityResult(TypeEvenement::class,'te');*/
+        foreach ($this->getClassMetadata()->fieldMappings as $obj) {
+            $rsm->addFieldResult("e", $obj["columnName"], $obj["fieldName"]);
+        }
+        $stmt = $this->getEntityManager()->createNativeQuery($query, $rsm);
+        if(null ==! $critere) {
+
+            if($critere['budget_evenement_min'] !== ''){
+                $stmt->setParameter('1', '%' . $critere['budget_evenement_min'] . "%");
+            }
+            if($critere['budget_evenement_max'] !== ''){
+                $stmt->setParameter('1', '%' . $critere['budget_evenement_max'] . "%");
+
+            }
+        }
+        $stmt->execute();
+        $res = $stmt->getResult();
+        //dd($res);
+
+        return $res;
     }
 }

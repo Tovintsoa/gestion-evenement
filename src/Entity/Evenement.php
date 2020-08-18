@@ -52,19 +52,19 @@ class Evenement
     private $photosEvenement;
 
     /**
-     * @ORM\Column(type="json")
-     */
-    private $lieu_evenement = [];
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $type_evenement = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="evenements")
      */
     private $createurEvenement;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=TypeEvenement::class, inversedBy="evenements")
+     */
+    private $type_evenement;
+
+    /**
+     * @ORM\OneToMany(targetEntity=EvenementLieuEvenement::class, mappedBy="id_evenement")
+     */
+    private $evenementLieuEvenements;
 
 
 
@@ -79,6 +79,8 @@ class Evenement
     public function __construct()
     {
         $this->photosEvenement = new ArrayCollection();
+        $this->type_evenement = new ArrayCollection();
+        $this->evenementLieuEvenements = new ArrayCollection();
 
     }
 
@@ -180,29 +182,7 @@ class Evenement
         return $this;
     }
 
-    public function getLieuEvenement(): ?array
-    {
-        return $this->lieu_evenement;
-    }
 
-    public function setLieuEvenement(array $lieu_evenement): self
-    {
-        $this->lieu_evenement = $lieu_evenement;
-
-        return $this;
-    }
-
-    public function getTypeEvenement(): ?array
-    {
-        return $this->type_evenement;
-    }
-
-    public function setTypeEvenement(array $type_evenement): self
-    {
-        $this->type_evenement = $type_evenement;
-
-        return $this;
-    }
 
     public function __toString() {
         return (string) $this->getId();
@@ -216,6 +196,63 @@ class Evenement
     public function setCreateurEvenement(?Utilisateur $createurEvenement): self
     {
         $this->createurEvenement = $createurEvenement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TypeEvenement[]
+     */
+    public function getTypeEvenement(): Collection
+    {
+        return $this->type_evenement;
+    }
+
+    public function addTypeEvenement(TypeEvenement $typeEvenement): self
+    {
+        if (!$this->type_evenement->contains($typeEvenement)) {
+            $this->type_evenement[] = $typeEvenement;
+        }
+
+        return $this;
+    }
+
+    public function removeTypeEvenement(TypeEvenement $typeEvenement): self
+    {
+        if ($this->type_evenement->contains($typeEvenement)) {
+            $this->type_evenement->removeElement($typeEvenement);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EvenementLieuEvenement[]
+     */
+    public function getEvenementLieuEvenements(): Collection
+    {
+        return $this->evenementLieuEvenements;
+    }
+
+    public function addEvenementLieuEvenement(EvenementLieuEvenement $evenementLieuEvenement): self
+    {
+        if (!$this->evenementLieuEvenements->contains($evenementLieuEvenement)) {
+            $this->evenementLieuEvenements[] = $evenementLieuEvenement;
+            $evenementLieuEvenement->setIdEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenementLieuEvenement(EvenementLieuEvenement $evenementLieuEvenement): self
+    {
+        if ($this->evenementLieuEvenements->contains($evenementLieuEvenement)) {
+            $this->evenementLieuEvenements->removeElement($evenementLieuEvenement);
+            // set the owning side to null (unless already changed)
+            if ($evenementLieuEvenement->getIdEvenement() === $this) {
+                $evenementLieuEvenement->setIdEvenement(null);
+            }
+        }
 
         return $this;
     }

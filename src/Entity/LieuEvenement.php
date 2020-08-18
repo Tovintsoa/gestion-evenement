@@ -24,11 +24,16 @@ class LieuEvenement
      */
     private $nomLieuEvenement;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EvenementLieuEvenement::class, mappedBy="id_lieuEvenement")
+     */
+    private $evenementLieuEvenements;
+
 
 
     public function __construct()
     {
-
+        $this->evenementLieuEvenements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,6 +49,37 @@ class LieuEvenement
     public function setNomLieuEvenement(string $nomLieuEvenement): self
     {
         $this->nomLieuEvenement = $nomLieuEvenement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EvenementLieuEvenement[]
+     */
+    public function getEvenementLieuEvenements(): Collection
+    {
+        return $this->evenementLieuEvenements;
+    }
+
+    public function addEvenementLieuEvenement(EvenementLieuEvenement $evenementLieuEvenement): self
+    {
+        if (!$this->evenementLieuEvenements->contains($evenementLieuEvenement)) {
+            $this->evenementLieuEvenements[] = $evenementLieuEvenement;
+            $evenementLieuEvenement->setIdLieuEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenementLieuEvenement(EvenementLieuEvenement $evenementLieuEvenement): self
+    {
+        if ($this->evenementLieuEvenements->contains($evenementLieuEvenement)) {
+            $this->evenementLieuEvenements->removeElement($evenementLieuEvenement);
+            // set the owning side to null (unless already changed)
+            if ($evenementLieuEvenement->getIdLieuEvenement() === $this) {
+                $evenementLieuEvenement->setIdLieuEvenement(null);
+            }
+        }
 
         return $this;
     }

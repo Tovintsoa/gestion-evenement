@@ -36,10 +36,11 @@ class AccueilController extends AbstractController
 
         if ($formChercherEvenement->isSubmitted()) {
             $res = $this->evenementRepository->chercherEvenement($request->request->get("chercher_evenement"));
+
             $resultat = $paginator->paginate(
                 $res, // Requête contenant les données à paginer (ici nos articles)
                 $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                1 // Nombre de résultats par page
+                10 // Nombre de résultats par page
             );
             return $this->render('accueil/resultatRecherche.html.twig',[
                 'formChercherEvenement' => $formChercherEvenement->createView(),

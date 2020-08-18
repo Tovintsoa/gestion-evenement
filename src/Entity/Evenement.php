@@ -51,10 +51,6 @@ class Evenement
      */
     private $photosEvenement;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="evenements")
-     */
-    private $createurEvenement;
 
     /**
      * @ORM\ManyToMany(targetEntity=TypeEvenement::class, inversedBy="evenements")
@@ -65,6 +61,12 @@ class Evenement
      * @ORM\OneToMany(targetEntity=EvenementLieuEvenement::class, mappedBy="id_evenement")
      */
     private $evenementLieuEvenements;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="evenements")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $createur_evenement_id;
 
 
 
@@ -188,17 +190,7 @@ class Evenement
         return (string) $this->getId();
     }
 
-    public function getCreateurEvenement(): ?Utilisateur
-    {
-        return $this->createurEvenement;
-    }
 
-    public function setCreateurEvenement(?Utilisateur $createurEvenement): self
-    {
-        $this->createurEvenement = $createurEvenement;
-
-        return $this;
-    }
 
     /**
      * @return Collection|TypeEvenement[]
@@ -253,6 +245,18 @@ class Evenement
                 $evenementLieuEvenement->setIdEvenement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreateurEvenementId(): ?Utilisateur
+    {
+        return $this->createur_evenement_id;
+    }
+
+    public function setCreateurEvenementId(?Utilisateur $createur_evenement_id): self
+    {
+        $this->createur_evenement_id = $createur_evenement_id;
 
         return $this;
     }

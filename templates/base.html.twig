@@ -6,16 +6,19 @@
              {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body style=" ">
          <header>
             {% include ("./layout/navbar.html.twig") %}
          </header>
-         <main class="mt-5 pt-2" id="main">
+         <main class="mt-5 pt-2" id="main" style=" ">
              {% block body %}{% endblock %}
          </main>
-         <footer class="footer  py-3 mt-3 bg-light">
+         {% if controller is defined and controller == 'security' %}
+         {% else %}
+         <footer class="footer  py-3 mt-3 bg-light" >
              {% include ("./layout/footer.html.twig") %}
          </footer>
+         {% endif %}
          {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

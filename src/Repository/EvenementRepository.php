@@ -69,7 +69,7 @@ class EvenementRepository extends ServiceEntityRepository
     public function chercherEvenement(array $critere){
 
         $query = "SELECT e.*,te.type,le.`nom_lieu_evenement` FROM evenement	AS e LEFT JOIN
-evenement_type_evenement AS ete ON e.id = ete.evenement_id RIGHT JOIN type_evenement AS te ON ete.type_evenement_id = te.`id` 
+evenement_type_evenement AS ete ON e.id = ete.evenement_id LEFT JOIN type_evenement AS te ON ete.type_evenement_id = te.`id` 
 LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOIN lieu_evenement AS le ON ele.id_lieu_evenement_id = le.`id` where 1<2";
 
         if($critere['date_evenement_debut'] !== ''){
@@ -120,7 +120,7 @@ LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOI
         }
         //echo($query); die;
         $query .= ' group by e.id';
-        //echo($query); die;
+
 
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addEntityResult(Evenement::class, "e");

@@ -73,12 +73,12 @@ evenement_type_evenement AS ete ON e.id = ete.evenement_id RIGHT JOIN type_evene
 LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOIN lieu_evenement AS le ON ele.id_lieu_evenement_id = le.`id` where 1<2";
 
         if($critere['date_evenement_debut'] !== ''){
-            $query .= " AND e.`date_debut_evenement` like '".$critere['date_evenement_debut']."'";
+            $query .= " AND e.`date_debut_evenement` >= '".$critere['date_evenement_debut']."'";
            // $query .= " AND e.`date_debut_evenement` like (?)";
 
         }
         if($critere['date_evenement_fin'] !== ''){
-            $query .= " AND e.`date_fin_evenement` like '".$critere['date_evenement_fin']."'" ;
+            $query .= " AND e.`date_fin_evenement` <= '".$critere['date_evenement_fin']."'" ;
             //$query .= " AND e.`date_fin_evenement` like (?)" ;
 
         }
@@ -118,7 +118,7 @@ LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOI
             }
             $query .= ')';
         }
-
+        //echo($query); die;
         $query .= ' group by e.id';
         //echo($query); die;
 

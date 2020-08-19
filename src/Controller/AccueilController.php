@@ -9,6 +9,7 @@ use App\Repository\EvenementRepository;
 use App\Repository\TypeEvenementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -23,6 +24,7 @@ class AccueilController extends AbstractController
      */
     private $typeEvenementRepository;
     private $utilisateurManager;
+
     public function __construct(UtilisateurManager $utilisateurManager,EvenementRepository $evenementRepository,TypeEvenementRepository $typeEvenementRepository)
     {
         $this->utilisateurManager = $utilisateurManager;
@@ -72,6 +74,10 @@ class AccueilController extends AbstractController
     public function interesseEvenement(Utilisateur $user,Evenement $evenement){
         $user->addInteresseEvnement($evenement);
         $this->utilisateurManager->save($user);
+        return new Response("true");
+    }
+    public function afficherInteresseEvenement(Utilisateur $user,Evenement $evenement){
+      $allUserInteressted = $user->getInteresseEvnements();
 
     }
 }

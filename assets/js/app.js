@@ -20,3 +20,4 @@ require('bootstrap-select/dist/js/bootstrap-select.min');
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
 global.id_utilisateur = $(".body").data("connected");
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+

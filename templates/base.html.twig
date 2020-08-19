@@ -6,7 +6,7 @@
              {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body class="body" data-connected = "{{ app.user.id }}">
+    <body class="body" data-connected = "{{ app.user.id ?? 0}}">
          <header>
             {% include ("./layout/navbar.html.twig") %}
          </header>

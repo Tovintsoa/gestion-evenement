@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Evenement;
+use App\Entity\Utilisateur;
 use App\Form\ChercherEvenementType;
+use App\Manager\UtilisateurManager;
 use App\Repository\EvenementRepository;
 use App\Repository\TypeEvenementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,8 +22,10 @@ class AccueilController extends AbstractController
      * @var TypeEvenementRepository
      */
     private $typeEvenementRepository;
-    public function __construct(EvenementRepository $evenementRepository,TypeEvenementRepository $typeEvenementRepository)
+    private $utilisateurManager;
+    public function __construct(UtilisateurManager $utilisateurManager,EvenementRepository $evenementRepository,TypeEvenementRepository $typeEvenementRepository)
     {
+        $this->utilisateurManager = $utilisateurManager;
         $this->evenementRepository = $evenementRepository;
         $this->typeEvenementRepository = $typeEvenementRepository;
     }
@@ -31,11 +36,13 @@ class AccueilController extends AbstractController
      */
     public function index(Request $request,PaginatorInterface $paginator)
     {
-        $formChercherEvenement = $this->createForm(ChercherEvenementType::class, null);
+        $formChercherEvenement = $this->createForm(ChercherEvenementType::class, null,[
+            'method' => 'GET',
+        ]);
         $formChercherEvenement->handleRequest($request);
 
         if ($formChercherEvenement->isSubmitted()) {
-            $res = $this->evenementRepository->chercherEvenement($request->request->get("chercher_evenement"));
+            $res = $this->evenementRepository->chercherEvenement($request->query->get("chercher_evenement"));
 
             $resultat = $paginator->paginate(
                 $res, // Requête contenant les données à paginer (ici nos articles)
@@ -57,5 +64,14 @@ class AccueilController extends AbstractController
         return $this->render('accueil/resultatRecherche/afficherType.html.twig', [
             'typeEvenement' => $typeEvenement,
         ]);
+    }
+
+    /**
+     * @Route("/interesse/{user}/{evenement}", name="interesse",options={"expose"=true})
+     */
+    public function interesseEvenement(Utilisateur $user,Evenement $evenement){
+        $user->addInteresseEvnement($evenement);
+        $this->utilisateurManager->save($user);
+
     }
 }

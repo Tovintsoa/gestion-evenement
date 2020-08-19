@@ -68,6 +68,11 @@ class Evenement
      */
     private $createur_evenement_id;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Utilisateur::class, inversedBy="interesseEvnements")
+     */
+    private $interesseEvenement;
+
 
 
 
@@ -83,6 +88,7 @@ class Evenement
         $this->photosEvenement = new ArrayCollection();
         $this->type_evenement = new ArrayCollection();
         $this->evenementLieuEvenements = new ArrayCollection();
+        $this->interesseEvenement = new ArrayCollection();
 
     }
 
@@ -257,6 +263,32 @@ class Evenement
     public function setCreateurEvenementId(?Utilisateur $createur_evenement_id): self
     {
         $this->createur_evenement_id = $createur_evenement_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Utilisateur[]
+     */
+    public function getInteresseEvenement(): Collection
+    {
+        return $this->interesseEvenement;
+    }
+
+    public function addInteresseEvenement(Utilisateur $interesseEvenement): self
+    {
+        if (!$this->interesseEvenement->contains($interesseEvenement)) {
+            $this->interesseEvenement[] = $interesseEvenement;
+        }
+
+        return $this;
+    }
+
+    public function removeInteresseEvenement(Utilisateur $interesseEvenement): self
+    {
+        if ($this->interesseEvenement->contains($interesseEvenement)) {
+            $this->interesseEvenement->removeElement($interesseEvenement);
+        }
 
         return $this;
     }

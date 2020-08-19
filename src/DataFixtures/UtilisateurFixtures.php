@@ -22,7 +22,12 @@ class UtilisateurFixtures extends Fixture
         $utilisateur = new Utilisateur();
         $utilisateur->setAdresseUtilisateur("III D 20 Bis")
             ->setMailUtilisateur("tianatovintsoa@gmail.com")
-            ->setRoles(["ROLE_USER"]);
+            ->setLoginUtilisateur("Tovintsoa")
+            ->setNomUtilisateur("Rakotoarivelo")
+            ->setPrenomUtilisateur('Tovintsoa')
+            ->setRoles(["ROLE_USER"])
+            ->setActivationCompte(true);
+
         $utilisateur->setPassword($this->passwordEncoder->encodePassword($utilisateur, 'azertyuiop'));
         $manager->persist($utilisateur);
 

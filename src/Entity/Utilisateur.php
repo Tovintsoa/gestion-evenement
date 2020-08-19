@@ -6,10 +6,13 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @UniqueEntity("mailUtilisateur")
  */
 class Utilisateur implements UserInterface
 {
@@ -22,6 +25,7 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email
      */
     private $mailUtilisateur;
 
@@ -51,9 +55,35 @@ class Utilisateur implements UserInterface
      */
     private $evenements;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nomUtilisateur;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenomUtilisateur;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $loginUtilisateur;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activation_compte;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Evenement::class, mappedBy="interesseEvenement")
+     */
+    private $interesseEvnements;
+
     public function __construct()
     {
         $this->evenements = new ArrayCollection();
+        $this->interesseEvnements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +214,82 @@ class Utilisateur implements UserInterface
             if ($evenement->getCreateurEvenementId() === $this) {
                 $evenement->setCreateurEvenementId(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getNomUtilisateur(): ?string
+    {
+        return $this->nomUtilisateur;
+    }
+
+    public function setNomUtilisateur(?string $nomUtilisateur): self
+    {
+        $this->nomUtilisateur = $nomUtilisateur;
+
+        return $this;
+    }
+
+    public function getPrenomUtilisateur(): ?string
+    {
+        return $this->prenomUtilisateur;
+    }
+
+    public function setPrenomUtilisateur(?string $prenomUtilisateur): self
+    {
+        $this->prenomUtilisateur = $prenomUtilisateur;
+
+        return $this;
+    }
+
+    public function getLoginUtilisateur(): ?string
+    {
+        return $this->loginUtilisateur;
+    }
+
+    public function setLoginUtilisateur(string $loginUtilisateur): self
+    {
+        $this->loginUtilisateur = $loginUtilisateur;
+
+        return $this;
+    }
+
+    public function getActivationCompte(): ?bool
+    {
+        return $this->activation_compte;
+    }
+
+    public function setActivationCompte(bool $activation_compte): self
+    {
+        $this->activation_compte = $activation_compte;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getInteresseEvnements(): Collection
+    {
+        return $this->interesseEvnements;
+    }
+
+    public function addInteresseEvnement(Evenement $interesseEvnement): self
+    {
+        if (!$this->interesseEvnements->contains($interesseEvnement)) {
+            $this->interesseEvnements[] = $interesseEvnement;
+            $interesseEvnement->addInteresseEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInteresseEvnement(Evenement $interesseEvnement): self
+    {
+        if ($this->interesseEvnements->contains($interesseEvnement)) {
+            $this->interesseEvnements->removeElement($interesseEvnement);
+            $interesseEvnement->removeInteresseEvenement($this);
         }
 
         return $this;

@@ -11,10 +11,12 @@ import '../css/app.css';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 //import $ from 'jquery';
 const $ = require('jquery');
+global.axios = require('axios');
 require ("bootstrap");
 import '../css/global.scss';
 global.$ = global.jQuery = $;
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
 require('bootstrap-select/dist/js/bootstrap-select.min');
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+global.id_utilisateur = $(".body").data("connected");
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

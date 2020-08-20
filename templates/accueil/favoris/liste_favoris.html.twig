@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-3">
+            <h4>Mes favoris</h4>
+        </div>
+        {% for result in listeFavoris %}
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="card mt-4" style="">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Card image cap">
+                    <div class="card-body">
+                        {% if result.dateDebutEvenement|date('Y-m-d') is same as(result.dateFinEvenement|date('Y-m-d')) %}
+                            <p style="color:red">{{ result.dateDebutEvenement|format_datetime(locale='fr') }}</p>
+                        {% else %}
+                            <p style="color:red">{{ result.dateDebutEvenement|date("d/m/Y") }} - {{ result.dateFinEvenement|date("d/m/Y") }}</p>
+                        {% endif %}
+                        <p class="card-text font-weight-bold">{{ result.nomEvenement }}</p>
+                        <p>
+
+                            {% for typeEvenementId in result.typeEvenement %}
+
+                                {{ render(controller(
+                                    'App\\Controller\\AccueilController::afficherTypeEvenement',
+                                    { 'id_type': typeEvenementId.id }
+                                )) }}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        {% if app.user != null %}
+                            {{ render(controller(
+                                'App\\Controller\\AccueilController::afficherInteresseEvenement',
+                                {'user':app.user,'evenement':result.id}
+                            )) }}
+                        {% else %}
+                            <button type="button" class="btn btn-primary  btn-sm interesse" data-toggle="modal" data-target="#modalConnexion"><i class="far fa-star"></i> Interessé</button>
+                            <button type="button"  class="btn btn-secondary btn-sm ml-2"><i class="fas fa-share"></i></button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

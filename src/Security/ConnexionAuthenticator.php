@@ -74,9 +74,9 @@ class ConnexionAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new CustomUserMessageAuthenticationException('Mail Utilisateur could not be found.');
         }
 
-        else if($user->getActivationCompte() === false){
+       /* else if($user->getActivationCompte() === false){
             throw new CustomUserMessageAuthenticationException('Activer votre compte');
-        }
+        }*/
 
 
         return $user;

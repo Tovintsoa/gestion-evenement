@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <div class="container my-4">
+        <div class="row">
+            {% include ("./profile/photo.html.twig") %}
+            {% include ("./profile/identite.html.twig") %}
+            {% include ("./profile/motdepasse.html.twig") %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app_index') }}
+{% endblock %}

@@ -24,8 +24,15 @@
                         </p>
                     </div>
                     <div class="card-footer text-center">
-                        <button type="button" class="btn btn-primary  btn-sm interesse" id="interesse-{{ result.id }}" data-id="{{ result.id }}"><i class="fas fa-star"></i> Interessé</button>
-                        <button type="button"  class="btn btn-secondary btn-sm ml-2"><i class="fas fa-share"></i></button>
+                        {% if app.user != null %}
+                        {{ render(controller(
+                            'App\\Controller\\AccueilController::afficherInteresseEvenement',
+                            {'user':app.user,'evenement':result.id}
+                        )) }}
+                        {% else %}
+                            <button type="button" class="btn btn-primary  btn-sm interesse" data-toggle="modal" data-target="#modalConnexion"><i class="far fa-star"></i> Interessé</button>
+                            <button type="button"  class="btn btn-secondary btn-sm ml-2"><i class="fas fa-share"></i></button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -36,6 +43,32 @@
         {% else %}
 
         {% endif %}
+    </div>
+</div>
+<div class="modal fade" id="modalConnexion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Vous devez d'abord vous connecter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Créer un compte gratuitement ou connectez-vous avant de pouvoir cliquer ce boutton.</p>
+                <div class="text-center mt-3">
+                    <p>
+                        <a href="{{ path("app_createAccount") }}">Creér un compte</a>
+                    </p>
+                    <p>
+                        Vous avez un compte? <a href="{{ path("app_login") }}">Connectez-vous.</a>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 

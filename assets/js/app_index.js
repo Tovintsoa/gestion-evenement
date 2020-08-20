@@ -13,18 +13,34 @@ $(document).ready(function(){
     $("#chercher_evenement_lieu_evenement").selectpicker();
     $(".interesse").on("click",function () {
         let id_event = $(this).data("id");
-
+        let val = $(this).children()[0];
         if(id_utilisateur === 0){
-
+           /* $("i", this).toggleClass("far fa-star fas fa-star");*/
+            /**
+             * Modal pour inciter à la connexion
+             */
+           /* $("#modalConnexion").modal("toggle");*/
         }
         else {
-            axios.get(Routing.generate("interesse")+"/"+id_utilisateur+"/"+id_event, {
+            if($(val).hasClass('far fa-star')){
+                axios.get(Routing.generate("interesse")+"/"+id_utilisateur+"/"+id_event+"/add", {
 
-            }).then(function (response) {
+                }).then(function (response) {
+                    $("i", "#interesse-"+id_event).toggleClass("far fa-star fas fa-star");
+                }).catch(function (error) {
 
-            }).catch(function (error) {
+                })
+            }
+            else{
+                axios.get(Routing.generate("interesse")+"/"+id_utilisateur+"/"+id_event+"/delete", {
 
-            })
+                }).then(function (response) {
+                    $("i", "#interesse-"+id_event).toggleClass("far fa-star fas fa-star");
+                }).catch(function (error) {
+
+                })
+            }
+
         }
     })
 })

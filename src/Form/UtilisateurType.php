@@ -15,6 +15,7 @@ class UtilisateurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('mailUtilisateur',TextType::class,[
                 'label' => 'Adresse e-mail'
@@ -26,7 +27,10 @@ class UtilisateurType extends AbstractType
                 'second_options' => ['label' => 'Répéter le mot de passe'],
             ])
             ->add('dateDeNaissanceUtilisateur',DateType::class,[
-                'label' => 'Date de naissance'
+                'label' => 'Date de naissance',
+                'attr' => ["class" => "js_datepickerNaissance"],
+                'html5' => false,
+                'widget' => 'single_text',
             ])
             ->add('adresseUtilisateur', TextType::class,[
                 'label' => 'Adresse'

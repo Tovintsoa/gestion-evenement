@@ -4,40 +4,30 @@
             <h5>Modifier</h5>
         </div>
         <div class="card-body">
+
             {{ form_start(form) }}
                 <div class=" row">
                     <div class="form-group col-6">
-                        {{ form_label(form.mailUtilisateur) }}
-                        {{ form_widget(form.mailUtilisateur) }}
-                    </div>
-                    <div class="form-group col-6">
                         {{ form_label(form.loginUtilisateur) }}
-                        {{ form_widget(form.loginUtilisateur) }}
+                        {{ form_widget(form.loginUtilisateur,{"attr":{"value":app.user.loginUtilisateur}}) }}
                     </div>
                     <div class="form-group col-6">
                         {{ form_label(form.nomUtilisateur) }}
-                        {{ form_widget(form.nomUtilisateur) }}
+                        {{ form_widget(form.nomUtilisateur,{"attr":{"value":app.user.nomUtilisateur}}) }}
                     </div>
                     <div class="form-group col-6">
                         {{ form_label(form.prenomUtilisateur) }}
-                        {{ form_widget(form.prenomUtilisateur) }}
+                        {{ form_widget(form.prenomUtilisateur,{"attr":{"value":app.user.prenomUtilisateur}}) }}
                     </div>
                     <div class="form-group col-6">
                         {{ form_label(form.adresseUtilisateur) }}
-                        {{ form_widget(form.adresseUtilisateur) }}
+                        {{ form_widget(form.adresseUtilisateur,{"attr":{"value":app.user.adresseUtilisateur}}) }}
                     </div>
                     <div class="form-group col-6">
                         {{ form_label(form.dateDeNaissanceUtilisateur) }}
-                        {{ form_widget(form.dateDeNaissanceUtilisateur) }}
+                        {{ form_widget(form.dateDeNaissanceUtilisateur,{"attr":{"value":app.user.dateDeNaissanceUtilisateur|date}}) }}
                     </div>
-                    <div class="form-group col-6">
-                        {{ form_label(form.password.first) }}
-                        {{ form_widget(form.password.first) }}
-                    </div>
-                    <div class="form-group col-6">
-                        {{ form_label(form.password.second) }}
-                        {{ form_widget(form.password.second) }}
-                    </div>
+
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>

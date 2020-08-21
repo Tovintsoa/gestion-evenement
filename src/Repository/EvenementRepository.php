@@ -30,12 +30,17 @@ class EvenementRepository extends ServiceEntityRepository
      * @var LieuEvenementService
      */
     private $lieuEvenementService;
-    public function __construct(TypeEvenementService $typeEvenementService,LieuEvenementService $lieuEvenementService,ManagerRegistry $registry)
+    /**
+     * @var LieuEvenementRepository
+     */
+    private $lieuEvenementRepository;
+    public function __construct(TypeEvenementService $typeEvenementService,LieuEvenementService $lieuEvenementService,ManagerRegistry $registry,LieuEvenementRepository $lieuEvenementRepository)
     {
 
         parent::__construct($registry, Evenement::class);
         $this->typeEvenementService = $typeEvenementService;
         $this->lieuEvenementService = $lieuEvenementService;
+        $this->lieuEvenementRepository = $lieuEvenementRepository;
     }
 
     // /**
@@ -117,6 +122,10 @@ LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOI
                 }
             }
             $query .= ')';
+        }
+        if(isset($critere['position_value']) &&  $critere['position_value'] !== "" ){
+            $lieu = $this->lieuEvenementRepository->findOneBy(["nomLieuEvenement" => $critere['position_value']]);
+            $query .= ' AND ele.id_lieu_evenement_id IN('.$lieu->getId().")";
         }
         //echo($query); die;
         $query .= ' group by e.id';

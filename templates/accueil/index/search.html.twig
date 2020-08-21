@@ -1,5 +1,12 @@
 <div class="container mt-4">
     <div class="row">
+        <div class="col-12 text-center">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
       <div class="offet-2 col-8 offset-2">
           <div class="card">
               <div class="card-header">

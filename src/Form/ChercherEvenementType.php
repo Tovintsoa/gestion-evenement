@@ -6,7 +6,9 @@ use App\Repository\EvenementRepository;
 use App\Repository\LieuEvenementRepository;
 use App\Repository\TypeEvenementRepository;
 use App\Service\TypeEvenementService;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -83,6 +85,14 @@ class ChercherEvenementType extends AbstractType
                 'multiple' => true,
                 'choices' => $lieuEvenementPourFormulaire,
                 'required' => false
+            ])
+            ->add("current_position",CheckboxType::class,[
+               /* 'attr' => ['class' => "col-12"],*/
+                'label'    => "Ma position",
+                'required' => false,
+            ])
+            ->add('position_value',HiddenType::class,[
+
             ])
         ;
     }

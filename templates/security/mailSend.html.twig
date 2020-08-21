@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container my-4">
+        <div class="row">
+            <div class="col">
+                <div class="card" role="alert">
+                    <div class="card-header">
+                        <h4 class="alert-heading">Enregistrement réussi ! </h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Bonjour {{ login }}</p>
+                        <p>Un message a été envoyé à <span class="font-weight-bold">{{ email }}</span></p>
+                        <p class="mb-0">Veuillez suivre les instructions dans le mail pour valider votre compte</p>
+                        <div class=" mt-4">
+                            <a href="{{ path("accueil") }}">Rechercher un evenement</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block subtTitle %}
+    Success
+{% endblock %}

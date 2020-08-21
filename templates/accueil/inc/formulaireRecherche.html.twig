@@ -30,10 +30,14 @@
                             <label for="inputEmail4">Et</label>
                             {{form_widget(formChercherEvenement.budget_evenement_max)}}
                         </div>
+                        {{form_row(formChercherEvenement.current_position)}}
+                        {{form_row(formChercherEvenement.position_value)}}
                         <div class="form-group col-md-12">
                             <label for="inputEmail4">Lieu</label>
                             {{form_widget(formChercherEvenement.lieu_evenement)}}
                         </div>
+
+                       {# <label class="form-check-label" for="inputEmail4">{{form_label(formChercherEvenement.current_position)}}</label>#}
                     </div>
                     <div class="row">
                         <div class="col-12">

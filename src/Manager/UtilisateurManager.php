@@ -44,6 +44,8 @@ class UtilisateurManager{
          * Generate and save token
          */
 
+        $this->setToken($user);
+
 
     }
     public function save(Utilisateur $user)
@@ -61,10 +63,34 @@ class UtilisateurManager{
             )
         );
     }
+    public function activate(Utilisateur $user)
+    {
+        $user->setActivationCompte(true)
+            ->setToken(null)
+            ->resetTokenExpiredAt();
+        $this->save($user);
+    }
 
     private function emailExist(string $email)
     {
         return $this->entityManager->getRepository(Utilisateur::class)->findOneBy(['mailUtilisateur' => $email]);
+    }
+    public function setToken(Utilisateur $user): void
+    {
+        /**
+         * Generate and save token
+         */
+        $user->setToken($this->tokenGenerator->generateToken())
+            ->setTokenExpiredAt((new \DateTime())->add(new \DateInterval('P1D')));
+    }
+    /**
+     * @param array $params
+     *
+     * @return Utilisateur|object|null
+     */
+    public function findBy(array $params)
+    {
+        return $this->repository->findOneBy($params);
     }
 
 }

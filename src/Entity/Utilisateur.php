@@ -80,6 +80,16 @@ class Utilisateur implements UserInterface
      */
     private $interesseEvnements;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $token_expired_at;
+
     public function __construct()
     {
         $this->evenements = new ArrayCollection();
@@ -291,6 +301,36 @@ class Utilisateur implements UserInterface
             $this->interesseEvnements->removeElement($interesseEvnement);
             $interesseEvnement->removeInteresseEvenement($this);
         }
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getTokenExpiredAt(): ?\DateTimeInterface
+    {
+        return $this->token_expired_at;
+    }
+
+    public function setTokenExpiredAt(?\DateTimeInterface $token_expired_at): self
+    {
+        $this->token_expired_at = $token_expired_at;
+
+        return $this;
+    }
+    public function resetTokenExpiredAt(): self
+    {
+        $this->token_expired_at = null;
 
         return $this;
     }

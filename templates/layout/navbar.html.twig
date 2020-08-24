@@ -1,55 +1,62 @@
 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light mb-4">
-  <a class="navbar-brand" href="{{ path("accueil") }}">QueFaire</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-    </ul>
-    <ul class="text-right navbar-nav">
-        <li class="nav-item">
-            <a href="{{ path("app_login") }}" class="mx-3 nav-link">{{'navbar.connect'|trans}}<span class="ml-2"><i class="fas fa-sign-in-alt"></i></span></a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ path("app_createAccount") }}" class="nav-link">{{'navbar.create_account'|trans}}<span class="ml-2"><i class="fas fa-user-alt"></i></span></a>
-        </li>
-    </ul>
-  </div>
-</nav>
-{% else %}
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light mb-4">
-        <a class="navbar-brand"  href="{{ path("accueil") }}">QueFaire</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="container">
+              <a class="navbar-brand" href="{{ path("accueil") }}">QueFaire</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
 
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-               {# <li class="nav-item active">
-                    <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
-                </li>#}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path("favoris") }}" ><span class="sr-only">(current)</span>Mes favoris </a>
-                </li>
-                <!--<li class="nav-item">
-                 <a class="nav-link" href="#">Link</a>
-               </li>
-               <li class="nav-item">
-                 <a class="nav-link disabled" href="#">Disabled</a>
-               </li> -->
-            </ul>
-            <ul class="text-right navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ path("profile") }}" class="nav-link">{{app.user.loginUtilisateur}}<span class="ml-2"><i class="fas fa-user-alt"></i></span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ path("app_logout") }}" class="mx-3 nav-link">{{'navbar.deconnect'|trans}}<span class="ml-2"><i class="fas fa-sign-in-alt"></i></span></a>
-                </li>
-
-            </ul>
+              <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                </ul>
+                <ul class="text-right navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{ path("app_login") }}" class="mx-3 nav-link">{{'navbar.connect'|trans}}<span class="ml-2"><i class="fas fa-sign-in-alt"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path("app_createAccount") }}" class="nav-link">{{'navbar.create_account'|trans}}<span class="ml-2"><i class="fas fa-user-alt"></i></span></a>
+                    </li>
+                </ul>
+              </div>
         </div>
     </nav>
+{% else %}
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container">
 
+            {% if 'ROLE_PRESTATAIRE' in app.user.roles   %}
+            <a class="mx-4" style="color:rgba(0, 0, 0, 0.9)" href="#" id="sidebarCollapse"><i class="fas fa-bars"></i></a>
+            {% endif %}
+            <a class="navbar-brand"  href="{{ path("accueil") }}">QueFaire</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                   {# <li class="nav-item active">
+                        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                    </li>#}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path("favoris") }}" ><span class="sr-only">(current)</span>Mes favoris </a>
+                    </li>
+                    <!--<li class="nav-item">
+                     <a class="nav-link" href="#">Link</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link disabled" href="#">Disabled</a>
+                   </li> -->
+                </ul>
+                <ul class="text-right navbar-nav">
+                    <li class="nav-item">
+                        <a href="{{ path("profile") }}" class="nav-link">{{app.user.loginUtilisateur}}<span class="ml-2"><i class="fas fa-user-alt"></i></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ path("app_logout") }}" class="mx-3 nav-link">{{'navbar.deconnect'|trans}}<span class="ml-2"><i class="fas fa-sign-in-alt"></i></span></a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
 {% endif %}

@@ -81,7 +81,11 @@ class SecurityController extends AbstractController
         if ($formUtilisateur->isSubmitted() && $formUtilisateur->isValid()){
 
             //if($this->utilisateurManager->emailExist($formUtilisateur->get('mailUtilisateur')->getData()))
-            $utilisateur->setRoles(['ROLE_USER']);
+           // dd($request);
+            $roles = $request->request->get('utilisateur')['roles'] === "1" ? ['ROLE_PRESTATAIRE']:['ROLE_USER'];
+           // dd($roles);
+
+            $utilisateur->setRoles($roles);
             $utilisateur->setActivationCompte(0);
 
 

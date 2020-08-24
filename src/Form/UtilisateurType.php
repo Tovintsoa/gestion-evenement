@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -39,6 +40,15 @@ class UtilisateurType extends AbstractType
             ])
             ->add('loginUtilisateur',TextType::class,[
                 'label' => 'Login'
+            ])
+            ->add('roles',ChoiceType::class,[
+                'mapped' => false,
+                'multiple' => false,
+                'choices' =>[
+                    'Utilisateur' => 0,
+                    'Préstataire évenementiel' => 1,
+                ],
+                'label' => "Vous êtes un "
             ])
         ;
     }

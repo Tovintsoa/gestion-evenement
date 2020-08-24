@@ -6,21 +6,27 @@
              {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
-    <body class="body" data-connected = "{{ app.user.id ?? 0}}">
-         <header>
-            {% include ("./layout/navbar.html.twig") %}
-         </header>
-         <main class="mt-5 pt-2" id="main" style=" ">
-             {% block body %}{% endblock %}
-         </main>
-         {% if controller is defined and controller == 'security' %}
-         {% else %}
-         <footer class="footer  py-3 mt-3 bg-light" >
-             {% include ("./layout/footer.html.twig") %}
-         </footer>
-         {% endif %}
-         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+    <body class="body" data-connected = "{{ app.user.id ?? 0}}"  >
+        <div class="wrapper w-100" style="position: absolute;">
+            {% include ("./layout/sidebar.html.twig") %}
+             <header>
+                {% include ("./layout/navbar.html.twig") %}
+             </header>
+             <main class="mt-5 pt-2 w-100" id="main">
+                 {% block body %}{% endblock %}
+             </main>
+             {% if controller is defined and controller == 'security' %}
+             {% else %}
+             <footer class="footer  py-3 mt-3 bg-light" >
+                 {% include ("./layout/footer.html.twig") %}
+             </footer>
+             {% endif %}
+            <div class="overlay"></div>
+             {% block javascripts %}
+                {{ encore_entry_script_tags('app') }}
+                 {{ encore_entry_script_tags('app_menu') }}
+            {% endblock %}
+        </div>
+        <div class="overlay"></div>
     </body>
 </html>

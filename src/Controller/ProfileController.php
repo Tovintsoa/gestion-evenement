@@ -38,11 +38,28 @@ class ProfileController extends AbstractController
         $utilisateur = new Utilisateur();
         $formUtilisateur = $this->createForm(UtilisateurType::class, $utilisateur,[
             'method' => 'POST',
-        ]);
+        ])->remove("password")->remove("mailUtilisateur");
         $formUtilisateur->handleRequest($request);
         if ($formUtilisateur->isSubmitted() && $formUtilisateur->isValid()){
-            $this->utilisateurManager->create($utilisateur, $formUtilisateur->get('password')->getData());
-            $this->utilisateurManager->save($utilisateur);
+            $tableau = $request->request->get("utilisateur");
+
+          /*  $this->utilisateurManager->create($utilisateur, $formUtilisateur->get('password')->getData());
+            $this->utilisateurManager->save($utilisateur);*/
+            $entityManager = $this->getDoctrine()->getManager();
+            $utilisateur = $this->getUser();
+            //dd($tableau["dateDeNaissanceUtilisateur"]);
+            $dateNaissance = \DateTime::createFromFormat('Y-m-d', $tableau["dateDeNaissanceUtilisateur"]);
+          // $dateNaissanceUtilisateur = $dateNaissance->format('Y-m-d H:i:s');
+           // dd($dateNaissanceUtilisateur);date_create
+           $utilisateur->setNomUtilisateur($tableau['nomUtilisateur'])
+                       ->setPrenomUtilisateur($tableau['prenomUtilisateur'])
+                       ->setAdresseUtilisateur($tableau['adresseUtilisateur'])
+                       ->setDateDeNaissanceUtilisateur($dateNaissance)
+                       ->setLoginUtilisateur($tableau['loginUtilisateur']);
+            $entityManager->flush();
+
+
+
             return new RedirectResponse($this->urlGenerator->generate('profile'));
         }
         return $this->render('profile/modifier/index.html.twig',[

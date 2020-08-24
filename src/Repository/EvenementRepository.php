@@ -129,7 +129,7 @@ LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOI
         }
         //echo($query); die;
         $query .= ' group by e.id';
-
+        //echo($query); die;
 
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
         $rsm->addEntityResult(Evenement::class, "e");
@@ -143,10 +143,10 @@ LEFT JOIN evenement_lieu_evenement AS ele ON e.id = ele.id_evenement_id LEFT JOI
         if(null ==! $critere) {
 
             if($critere['budget_evenement_min'] !== ''){
-                $stmt->setParameter('1', '%' . $critere['budget_evenement_min'] . "%");
+                $stmt->setParameter('1', $critere['budget_evenement_min'] );
             }
             if($critere['budget_evenement_max'] !== ''){
-                $stmt->setParameter('1', '%' . $critere['budget_evenement_max'] . "%");
+                $stmt->setParameter('2', $critere['budget_evenement_max']);
 
             }
         }

@@ -54,6 +54,10 @@ class UtilisateurManager{
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
+    public function update(Utilisateur $user){
+
+        $this->entityManager->flush();
+    }
     public function setPassword(Utilisateur $user, $plainPassword): void
     {
         $user->setPassword(

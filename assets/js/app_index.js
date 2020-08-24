@@ -3,6 +3,7 @@ const routes = require('../../web/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.js';
 Routing.setRoutingData(routes);
 $(document).ready(function(){
+
     getMyPosition();
 
     $(".js_datepicker1").datepicker({
@@ -11,6 +12,7 @@ $(document).ready(function(){
     $(".js_datepicker2").datepicker({
         format: 'yyyy-mm-dd',
     })
+
     $('#chercher_evenement_type_evenement').selectpicker();
     $("#chercher_evenement_lieu_evenement").selectpicker();
     $("#chercher_evenement_current_position").on("change",function () {
@@ -60,10 +62,11 @@ $(document).ready(function(){
 function maPosition(position) {
     let lat = position.coords.latitude;
     let long = position.coords.longitude;
-    axios.get("https://us1.locationiq.com/v1/reverse.php?key=db5bcae7acd7cf&lat=-18.9141256&lon=47.5385843&format=json", {
+    axios.get("https://us1.locationiq.com/v1/reverse.php?key=db5bcae7acd7cf&lat="+lat+"&lon="+long+"&format=json", {
     }).then(function (response) {
         region = response.data.address['city'];
-       console.log(response.data.address['city']);
+
+       console.log(response.data);
     }).catch(function (error) {
 
     })

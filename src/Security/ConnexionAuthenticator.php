@@ -30,6 +30,7 @@ class ConnexionAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
+    private $user;
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -84,6 +85,7 @@ class ConnexionAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        $this->user = $user;
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
@@ -97,13 +99,21 @@ class ConnexionAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
+
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
+        }
+        else if(in_array ('ROLE_PRESTATAIRE',$this->user->getRoles()) ){
+            return new RedirectResponse($this->urlGenerator->generate('tdb'));
+        }
+        else{
+            return new RedirectResponse($this->urlGenerator->generate('accueil'));
         }
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
-        return new RedirectResponse($this->urlGenerator->generate('accueil'));
+
     }
 
     protected function getLoginUrl()

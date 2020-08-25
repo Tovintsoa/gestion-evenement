@@ -90,6 +90,26 @@ class Utilisateur implements UserInterface
      */
     private $token_expired_at;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom_societe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nif_societe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stat_societe;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siege_societe;
+
     public function __construct()
     {
         $this->evenements = new ArrayCollection();
@@ -130,7 +150,7 @@ class Utilisateur implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        //$roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -331,6 +351,54 @@ class Utilisateur implements UserInterface
     public function resetTokenExpiredAt(): self
     {
         $this->token_expired_at = null;
+
+        return $this;
+    }
+
+    public function getNomSociete(): ?string
+    {
+        return $this->nom_societe;
+    }
+
+    public function setNomSociete(?string $nom_societe): self
+    {
+        $this->nom_societe = $nom_societe;
+
+        return $this;
+    }
+
+    public function getNifSociete(): ?string
+    {
+        return $this->nif_societe;
+    }
+
+    public function setNifSociete(?string $nif_societe): self
+    {
+        $this->nif_societe = $nif_societe;
+
+        return $this;
+    }
+
+    public function getStatSociete(): ?string
+    {
+        return $this->stat_societe;
+    }
+
+    public function setStatSociete(?string $stat_societe): self
+    {
+        $this->stat_societe = $stat_societe;
+
+        return $this;
+    }
+
+    public function getSiegeSociete(): ?string
+    {
+        return $this->siege_societe;
+    }
+
+    public function setSiegeSociete(?string $siege_societe): self
+    {
+        $this->siege_societe = $siege_societe;
 
         return $this;
     }

@@ -7,7 +7,7 @@
             <div class="offset-3 col-6 offset-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Inscrivez-vous</h4>
+                        <h4>Créer un compte professionnel gratuitement</h4>
                     </div>
                     <div class="card-body">
                         {{ form_start(form) }}
@@ -16,20 +16,31 @@
                                 {{ form_label(form.mailUtilisateur) }}
                                 {{ form_widget(form.mailUtilisateur) }}
                             </div>
-                            <div class="form-group col-12">
-                                {{ form_label(form.loginUtilisateur) }}
-                                {{ form_widget(form.loginUtilisateur) }}
-                            </div>
-                            <div class="form-group col-12">
+
+                            <div class="form-group col-6">
                                 {{ form_label(form.password.first) }}
                                 {{ form_widget(form.password.first) }}
+                            </div>
+                            <div class="form-group col-6">
                                 {{ form_label(form.password.second) }}
                                 {{ form_widget(form.password.second) }}
                             </div>
-                           {# <div class="form-group col-12">
-                                {{ form_label(form.roles) }}
-                                {{ form_widget(form.roles) }}
-                            </div>#}
+                            <div class="form-group col-12">
+                                 {{ form_label(form.nomSociete) }}
+                                 {{ form_widget(form.nomSociete) }}
+                            </div>
+                            <div class="form-group col-6">
+                                {{ form_label(form.nifSociete) }}
+                                {{ form_widget(form.nifSociete) }}
+                            </div>
+                            <div class="form-group col-6">
+                                {{ form_label(form.statSociete) }}
+                                {{ form_widget(form.statSociete) }}
+                            </div>
+                            <div class="form-group col-12">
+                                {{ form_label(form.siegeSociete) }}
+                                {{ form_widget(form.siegeSociete) }}
+                            </div>
                             <div class="form-group col-12 text-center">
                                 <button type="submit" class="btn btn-primary  w-100">Enregistrer</button>
                                 <div class="mt-4">

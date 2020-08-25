@@ -45,15 +45,26 @@ class UtilisateurType extends AbstractType
             ->add('loginUtilisateur',TextType::class,[
                 'label' => 'Login'
             ])
-            ->add('roles',ChoiceType::class,[
-                'mapped' => false,
-                'multiple' => false,
+            ->add('nomSociete',TextType::class,[
+                'label' => 'Nom de votre société'
+            ])
+            ->add('nifSociete',TextType::class,[
+                'label' => 'Nif'
+            ])
+            ->add('statSociete',TextType::class,[
+                'label' => 'Stat'
+            ])
+            ->add('siegeSociete',TextType::class,[
+                'label' => 'Adresse complete'
+            ])
+            /*->add('roles',ChoiceType::class,[
+                'multiple' => true,
                 'choices' =>[
-                    'Utilisateur' => 0,
-                    'Préstataire évenementiel' => 1,
+                    'Utilisateur' => 'ROLE_USER',
+                    'Préstataire évenementiel' => 'ROLE_PRESTATAIRE',
                 ],
                 'label' => "Vous êtes un "
-            ])
+            ])*/
         ;
     }
 

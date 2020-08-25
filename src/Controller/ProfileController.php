@@ -38,7 +38,11 @@ class ProfileController extends AbstractController
         $utilisateur = new Utilisateur();
         $formUtilisateur = $this->createForm(UtilisateurType::class, $utilisateur,[
             'method' => 'POST',
-        ])->remove("password")->remove("mailUtilisateur");
+        ])->remove("password")->remove("mailUtilisateur")->remove('roles')
+            ->remove('nomSociete')
+            ->remove('nifSociete')
+            ->remove('statSociete')
+            ->remove('siegeSociete');
         $formUtilisateur->handleRequest($request);
         if ($formUtilisateur->isSubmitted() && $formUtilisateur->isValid()){
             $tableau = $request->request->get("utilisateur");
@@ -51,11 +55,14 @@ class ProfileController extends AbstractController
             $dateNaissance = \DateTime::createFromFormat('Y-m-d', $tableau["dateDeNaissanceUtilisateur"]);
           // $dateNaissanceUtilisateur = $dateNaissance->format('Y-m-d H:i:s');
            // dd($dateNaissanceUtilisateur);date_create
+
            $utilisateur->setNomUtilisateur($tableau['nomUtilisateur'])
                        ->setPrenomUtilisateur($tableau['prenomUtilisateur'])
                        ->setAdresseUtilisateur($tableau['adresseUtilisateur'])
                        ->setDateDeNaissanceUtilisateur($dateNaissance)
                        ->setLoginUtilisateur($tableau['loginUtilisateur']);
+
+
             $entityManager->flush();
 
 

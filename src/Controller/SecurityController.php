@@ -75,18 +75,18 @@ class SecurityController extends AbstractController
         ])->remove('dateDeNaissanceUtilisateur')
             ->remove('adresseUtilisateur')
             ->remove('nomUtilisateur')
-            ->remove('prenomUtilisateur');
+            ->remove('prenomUtilisateur')
+            ->remove('roles')
+            ->remove('nomSociete')
+            ->remove('nifSociete')
+            ->remove('statSociete')
+            ->remove('siegeSociete');
         $formUtilisateur->handleRequest($request);
 
         if ($formUtilisateur->isSubmitted() && $formUtilisateur->isValid()){
 
-            //if($this->utilisateurManager->emailExist($formUtilisateur->get('mailUtilisateur')->getData()))
-           // dd($request);
-            $roles = $request->request->get('utilisateur')['roles'] === "1" ? ['ROLE_PRESTATAIRE']:['ROLE_USER'];
-           // dd($roles);
-
-            $utilisateur->setRoles($roles);
             $utilisateur->setActivationCompte(0);
+            $utilisateur->setRoles(['ROLE_USER']);
 
 
             $this->utilisateurManager->create($utilisateur, $formUtilisateur->get('password')->getData());
@@ -149,5 +149,36 @@ class SecurityController extends AbstractController
             $this->addFlash('danger', 'La clé de confirmation de l\'inscription a expiré');
         }
         return $this->login($authenticationUtils);
+    }
+
+    /**
+     * @Route("/creer_compte_professionnel",name="app_create_pro_account")
+     */
+    public function createAccountPro(Request $request){
+        if ($this->getUser()) {
+            return $this->redirectToRoute('accueil');
+        }
+        $utilisateur = new Utilisateur();
+        $formUtilisateur = $this->createForm(UtilisateurType::class, $utilisateur,[
+            'method' => 'POST',
+        ])->remove('dateDeNaissanceUtilisateur')
+            ->remove('adresseUtilisateur')
+            ->remove('nomUtilisateur')
+            ->remove('prenomUtilisateur')
+            ->remove('roles')
+            ->remove("loginUtilisateur");
+        $formUtilisateur->handleRequest($request);
+        if ($formUtilisateur->isSubmitted() && $formUtilisateur->isValid()){
+
+            $utilisateur->setLoginUtilisateur($request->request->get("utilisateur")['nomSociete']);
+            $utilisateur->setRoles(['ROLE_PRESTATAIRE']);
+            $utilisateur->setActivationCompte(0);
+            $this->utilisateurManager->create($utilisateur, $formUtilisateur->get('password')->getData());
+            $this->utilisateurManager->save($utilisateur);
+        }
+        return $this->render('security/createAccountPro.html.twig',[
+            'controller' => "security",
+            "form" => $formUtilisateur->createView()
+        ]);
     }
 }

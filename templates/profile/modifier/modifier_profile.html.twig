@@ -4,7 +4,6 @@
             <h5>Modifier</h5>
         </div>
         <div class="card-body">
-
             {{ form_start(form) }}
                 <div class=" row">
                     <div class="form-group col-6">
@@ -27,7 +26,6 @@
                         {{ form_label(form.dateDeNaissanceUtilisateur) }}
                         {{ form_widget(form.dateDeNaissanceUtilisateur,{"attr":{"value":app.user.dateDeNaissanceUtilisateur|date}}) }}
                     </div>
-
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                     </div>

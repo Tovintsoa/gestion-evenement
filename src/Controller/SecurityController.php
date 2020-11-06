@@ -174,6 +174,7 @@ class SecurityController extends AbstractController
             $utilisateur->setRoles(['ROLE_PRESTATAIRE']);
             $utilisateur->setActivationCompte(0);
             $this->utilisateurManager->create($utilisateur, $formUtilisateur->get('password')->getData());
+
             $this->utilisateurManager->save($utilisateur);
         }
         return $this->render('security/createAccountPro.html.twig',[

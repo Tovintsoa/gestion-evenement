@@ -38,6 +38,7 @@ class UtilisateurManager{
     }
     public function create(Utilisateur $user, $plainPassword = null)
     {
+
         $this->setPassword($user, $plainPassword);
        // $this->setRoles(['ROLE_USER']);
         /**
@@ -52,6 +53,7 @@ class UtilisateurManager{
     {
 
         $this->entityManager->persist($user);
+
         $this->entityManager->flush();
     }
     public function update(Utilisateur $user){

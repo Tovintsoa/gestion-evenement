@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-right"><a href="{{ path("ajouter-evenement") }}" class="btn btn-primary  mt-5 " style="color:white;">Créer Evenement</a> </div>
+        <div class="col-12 ">
+            <table class="table my-5">
+                <thead>
+                    <tr>
+                        <th>Nom evenement</th>
+                        <th>Budget</th>
+                        <th>Date debut</th>
+                        <th>Date fin</th>
+                        <th>Lieu</th>
+                        <th>Type</th>
+                        <th>Voir détails</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evenement in liste_evenement %}
+                        <tr>
+                            <td>{{ evenement.nomEvenement }}</td>
+                            <td>{{ evenement.budgetEvenement }}</td>
+                            <td>{{ evenement.dateDebutEvenement|date }}</td>
+                            <td>{{ evenement.dateFinEvenement|date }}</td>
+                            <td>
+                                <ul style=" list-style:none;">
+                                    {% for lieuEvenement in evenement.evenementLieuEvenements %}
+                                      <li> {{ lieuEvenement.idLieuEvenement.nomLieuEvenement }} </li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {% for typeEvenement in evenement.typeEvenement %}
+                                    <span class="badge badge-primary">{{ typeEvenement.type }}</span>
+                                {% endfor %}
+                            </td>
+
+                            <td><a href="#">aaaa</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+ {{ parent() }}
+{% endblock %}

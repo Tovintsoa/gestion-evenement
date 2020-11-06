@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {#{{ form(form_evenement) }}#}
+            <div class="col-12">
+                <div class="card my-5">
+                    <div class="card-header">
+                        <h5>Ajouter un evenement</h5>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form_evenement) }}
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Nom evenement</label>
+                                {{form_widget(form_evenement.nomEvenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Description</label>
+                                {{form_widget(form_evenement.descriptionEvenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Budget</label>
+                                {{form_widget(form_evenement.budgetEvenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Date début</label>
+                                {{form_widget(form_evenement.dateDebutEvenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Date fin</label>
+                                {{form_widget(form_evenement.dateFinEvenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Evenement pour</label>
+                                {{form_widget(form_evenement.type_evenement)}}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Lieu</label>
+                                {{form_widget(form_evenement.evenement_lieu_evenements)}}
+                            </div>
+                           {# <div class="form-group col-md-6">
+                                <label for="inputEmail4">Nom evenement</label>
+                                {{form_widget(form_evenement.nomEvenement)}}
+                            </div>#}
+                            <div class="col-12 text-right">
+                                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                            </div>
+                        </div>
+                        {{form_end(form_evenement)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
